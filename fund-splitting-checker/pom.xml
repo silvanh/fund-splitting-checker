@@ -8,18 +8,20 @@
   <name>fund-splitting-checker</name>
   <url>http://maven.apache.org</url>
 
- <properties>
-    <maven.compiler.source>1.21</maven.compiler.source>
-    <maven.compiler.target>1.21</maven.compiler.target>
-</properties>
+  <properties>
+      <maven.compiler.source>21</maven.compiler.source>
+      <maven.compiler.target>21</maven.compiler.target>
+  </properties>
 
-  <!-- https://mvnrepository.com/artifact/junit/junit -->
-  <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
-      <scope>test</scope>
-  </dependency>
+  <dependencies>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
 
   <build>
       <plugins>
@@ -28,8 +30,8 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.13.0</version>
             <configuration>
-                <source>1.21</source>
-                <target>1.21</target>
+                <source>21</source>
+                <target>21</target>
             </configuration>
         </plugin>
     </plugins>
