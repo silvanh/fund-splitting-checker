@@ -11,9 +11,9 @@ public final class PercentageChecker {
      * Checks if the sum of the given fractions (percentages) is approximately equal
      * to 1 within a specified tolerance.
      * 
-     * This method accepts a list of positive double values representing fractions.
+     * <p>This method accepts a list of positive double values representing fractions.
      * It will return true if the sum of these values is within the specified
-     * tolerance of 1. Otherwise, it returns false.
+     * tolerance of 1. Otherwise, it returns false.<p>
      * 
      * @param percentages A list of positive {@code Double} values representing
      *                    fractions (should be in the range [0.0, 1.0]).

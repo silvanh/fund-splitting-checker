@@ -1,18 +1,17 @@
 package com.silvanh;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
-public final class FundXmlReader {
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.silvanh.xmlModels.FundModel;
+import com.silvanh.xmlModels.FundsModel;
+import com.silvanh.xmlModels.PositionModel;
+
+public class FundXmlReader {
 
     private static final FundXmlReader INSTANCE = new FundXmlReader();
 
@@ -24,37 +23,43 @@ public final class FundXmlReader {
     }
 
     /**
-     * Loads the XML file based on the provided XmlType and converts it to a list of percentages.
+     * Loads the XML file specified by the given {@link XmlFiles} enum and converts it to a list of lists of percentages.
      * 
-     * @param xmlType the type of XML to load (valid or invalid)
-     * @return a list of percentages loaded from the XML file
-     * @throws IOException if an error occurs while reading the XML file
+     * <p>This method reads an XML file that conforms to the expected structure defined by the {@link FundsModel},
+     * extracting percentage values from each fund and returning them as a list of lists. Each inner list represents
+     * the percentages for a specific fund.</p>
+     * 
+     * @param xmlFile the type of XML to load, which specifies the path to the file (valid or invalid).
+     *                This should not be {@code null}.
+     * @return a {@code List<List<Double>>} containing lists of percentages loaded from the XML file.
+     *         If parsing of the file fails for any reason (e.g., IO error, parsing error), {@code null} is returned.
+     * 
+     * @throws IllegalArgumentException if the XML file path does not exist or is not a valid file.
      */
-    public List<Double> loadXml(XmlFiles xmlFile) throws IOException {
-        Path xmlPath = Path.of(xmlFile.getRelativePath());
+    public List<List<Double>> loadXml(XmlFiles xmlFile)  {
 
-        // Check if the file exists
-        if (!Files.exists(xmlPath)) {
-            throw new IOException("XML file not found: " + xmlPath);
-        }
-
-        try (InputStream inputStream = Files.newInputStream(xmlPath)) {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(inputStream);
-
-            // Example of extracting percentages from the XML
-            NodeList percentageNodes = document.getElementsByTagName("percentage");
-            List<Double> percentages = new ArrayList<>();
-
-            for (int i = 0; i < percentageNodes.getLength(); i++) {
-                String percentageValue = percentageNodes.item(i).getTextContent();
-                percentages.add(Double.parseDouble(percentageValue));
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFile.getRelativePath())) {
+            if (inputStream == null) {
+                throw new IOException("XML file not found: " + xmlFile.getRelativePath());
             }
 
-            return percentages;
-        } catch (Exception e) {
-            throw new IOException("Error parsing XML file: " + e.getMessage(), e);
+            XmlMapper xmlMapper = new XmlMapper();
+            FundsModel funds = xmlMapper.readValue(inputStream, FundsModel.class);
+            
+            List<List<Double>> allPercentages = new ArrayList<>();
+
+            for (FundModel fund : funds.getFundList()) {
+                List<Double> percentages = new ArrayList<>();
+                for (PositionModel position : fund.getPositionList()) {
+                    percentages.add(position.getPercentage());
+                }
+                allPercentages.add(percentages);
+            }
+
+            return allPercentages;
+        } catch (IOException e) {
+            System.err.println("Error loading XML file: " + e.getMessage());
+            return null;
         }
     }
 }
