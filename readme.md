@@ -13,9 +13,8 @@ This project provides functionality to load and parse XML files containing fund 
 3. Run the application: `mvn exec:java`
 
 ## General thoughts
-In General the purpose of the whole program is to test the PercentageChecker I guess. So It might be a good Idea to 
-make the App.java an integration test. And if so, move the Xml Parser and the models into the test package as well.
-But I'm not 100% certain if the parsing of the XML is also a feature. Because of this purpose I did not extensive testing
-on the xlm parser but restricted the inputs to the 2 given XML files.
+The primary purpose of this program is to test the functionality of the PercentageChecker. It may be beneficial to refactor the code in App.java into an integration test. If this is done, consider moving the XML parser and related model classes into the test package as well.
 
-I left the original src folder with the Main.java to have a comparison point to the new implementation.
+However, it's important to note that I'm not entirely certain whether the XML parsing is considered a core feature of the application. As a result, I did not conduct extensive testing on the XML parser itself; my focus was limited to the two provided XML files.
+
+To facilitate comparison between implementations, I have retained the original src folder with Main.java, allowing for easy reference to the initial code.
