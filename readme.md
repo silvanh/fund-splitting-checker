@@ -17,3 +17,5 @@ In General the purpose of the whole program is to test the PercentageChecker I g
 make the App.java an integration test. And if so, move the Xml Parser and the models into the test package as well.
 But I'm not 100% certain if the parsing of the XML is also a feature. Because of this purpose I did not extensive testing
 on the xlm parser but restricted the inputs to the 2 given XML files.
+
+I left the original src folder with the Main.java to have a comparison point to the new implementation.
