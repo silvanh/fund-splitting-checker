@@ -1,12 +1,19 @@
-## Fund Splitting Checker
+# Fund Splitting Checker
 
-Dieses kleine Kommando-Zeilen-Programm überprüft Fund Splitting Daten, welche von einem
-externen Provider angeliefert werden, auf ihre Korrektheit. Es kann vorkommen, dass die
-einzelnen Positionen zusammengezählt nicht 100% ergeben. Sollte dies der Fall sein, gibt
-das Programm eine entsprechende Fehlermeldung aus.
+This project provides functionality to load and parse XML files containing fund percentage data, returning lists of percentages for each fund. The application is designed to be executed using Maven, allowing you to run tests with `mvn test` and execute the program with `mvn exec:java`.
 
-Offenbar war der Autor dieser Software etwas in Eile. Ihre Aufgabe ist es nun, das Programm
-zu verbessern. Mehr als 1 bis 2 Stunden sollten Sie dafür aber nicht aufwenden müssen.
+## Requirements
 
-Sie dürfen für diese Aufgabe einsetzen was Sie wollen. Auch die Verwendung von externen Libraries ist
-gestattet. Lösen Sie die Aufgabe einfach so, wie sie das im normalen Arbeitsalltag auch tun würden.
+- Maven with Java 21 must be installed.
+
+## Usage
+
+1. Navigate to the `fund-splitting-checker` directory.
+2. Run tests: `mvn test`
+3. Run the application: `mvn exec:java`
+
+## General thoughts
+In General the purpose of the whole program is to test the PercentageChecker I guess. So It might be a good Idea to 
+make the App.java an integration test. And if so, move the Xml Parser and the models into the test package as well.
+But I'm not 100% certain if the parsing of the XML is also a feature. Because of this purpose I did not extensive testing
+on the xlm parser but restricted the inputs to the 2 given XML files.
