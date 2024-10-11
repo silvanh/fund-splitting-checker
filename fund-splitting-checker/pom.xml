@@ -25,6 +25,11 @@
       <artifactId>jackson-dataformat-xml</artifactId>
       <version>2.18.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.4</version> 
+    </dependency>
   </dependencies>
   
 
@@ -37,6 +42,21 @@
             <configuration>
                 <source>21</source>
                 <target>21</target>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.4.1</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>java</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <mainClass>com.silvanh.App</mainClass>
             </configuration>
         </plugin>
     </plugins>

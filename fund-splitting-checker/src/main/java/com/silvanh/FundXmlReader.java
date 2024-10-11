@@ -2,10 +2,12 @@ package com.silvanh;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import org.apache.commons.collections4.CollectionUtils;
+
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.silvanh.xmlModels.FundModel;
 import com.silvanh.xmlModels.FundsModel;
@@ -36,7 +38,7 @@ public class FundXmlReader {
      * 
      * @throws IllegalArgumentException if the XML file path does not exist or is not a valid file.
      */
-    public List<List<Double>> loadXml(XmlFiles xmlFile)  {
+    public List<List<BigDecimal>> loadXml(XmlFiles xmlFile)  {
 
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFile.getRelativePath())) {
             if (inputStream == null) {
@@ -46,11 +48,11 @@ public class FundXmlReader {
             XmlMapper xmlMapper = new XmlMapper();
             FundsModel funds = xmlMapper.readValue(inputStream, FundsModel.class);
             
-            List<List<Double>> allPercentages = new ArrayList<>();
+            List<List<BigDecimal>> allPercentages = new ArrayList<>();
 
-            for (FundModel fund : funds.getFundList()) {
-                List<Double> percentages = new ArrayList<>();
-                for (PositionModel position : fund.getPositionList()) {
+            for (FundModel fund : CollectionUtils.emptyIfNull(funds.getFundList())) {
+                List<BigDecimal> percentages = new ArrayList<>();
+                for (PositionModel position : CollectionUtils.emptyIfNull(fund.getPositionList())) {
                     percentages.add(position.getPercentage());
                 }
                 allPercentages.add(percentages);

@@ -1,17 +1,19 @@
 package com.silvanh.xmlModels;
 
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 public class PositionModel {
 
     @JacksonXmlProperty(localName = "percentage")
-    private Double percentage;
+    private BigDecimal percentage;
 
     @JacksonXmlProperty(isAttribute = true)
     private String id; 
 
-    public Double getPercentage() {
+    public BigDecimal getPercentage() {
         return percentage;
     }
 
