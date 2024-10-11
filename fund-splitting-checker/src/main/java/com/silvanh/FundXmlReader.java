@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -38,7 +40,7 @@ public class FundXmlReader {
      * 
      * @throws IllegalArgumentException if the XML file path does not exist or is not a valid file.
      */
-    public List<List<BigDecimal>> loadXml(XmlFiles xmlFile)  {
+    public Map<String, List<BigDecimal>> loadXml(XmlFiles xmlFile)  {
 
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xmlFile.getRelativePath())) {
             if (inputStream == null) {
@@ -48,14 +50,14 @@ public class FundXmlReader {
             XmlMapper xmlMapper = new XmlMapper();
             FundsModel funds = xmlMapper.readValue(inputStream, FundsModel.class);
             
-            List<List<BigDecimal>> allPercentages = new ArrayList<>();
+            Map<String, List<BigDecimal>> allPercentages = new HashMap<>();
 
             for (FundModel fund : CollectionUtils.emptyIfNull(funds.getFundList())) {
                 List<BigDecimal> percentages = new ArrayList<>();
                 for (PositionModel position : CollectionUtils.emptyIfNull(fund.getPositionList())) {
                     percentages.add(position.getPercentage());
                 }
-                allPercentages.add(percentages);
+                allPercentages.put(fund.getIsin(), percentages);
             }
 
             return allPercentages;
